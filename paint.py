@@ -11,7 +11,7 @@ root = Tk()
 material="lapis"
 col="black"
 
-rec=PhotoImage(file="paintphyton\_rectangulo.png")
+rec=PhotoImage(file="_rectangulo.png")
 hancho=Scale(root,from_=0,to=100,orient=HORIZONTAL)
 hancho.grid(row=2,column=10,columnspan=8) 
 lienzo=Canvas(root,width=600,height=400,bg="white")
@@ -39,6 +39,7 @@ def asck_color():
 def set_color(c):
   global col
   col=c
+  nar2.config(bg=c)
 cord=[]
 def des():
   lienzo.delete("kk")
