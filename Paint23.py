@@ -11,7 +11,7 @@ lienzo.grid(row=1,column=1,rowspan=10,columnspan=10,padx=20,pady=20)
 def info():
     messagebox.showinfo('no implementado','la eramienta no esta implementada')
 def getcolor(event):
-    print(event.x,event.y)
+    print(lienzo.gettags())
 lienzo.bind('<Button-2>',getcolor)
 cord=[]
 

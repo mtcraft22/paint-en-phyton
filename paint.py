@@ -42,7 +42,7 @@ def set_color(c):
   nar2.config(bg=c)
 cord=[]
 def des():
-  lienzo.delete("kk")
+  lienzo.delete("all")
 def set_material(m):
   global material
   material=m
@@ -74,23 +74,29 @@ def set_material(m):
     rect.config(bg="red")
 def motion2(event):
   x, y = event.x, event.y
-  lienzo.create_rectangle(x-hancho.get(),y+hancho.get(),x+hancho.get(),y-hancho.get(),fill=col,outline=col,tags="kk")
+  lienzo.create_rectangle(x-hancho.get(),y+hancho.get(),x+hancho.get(),y-hancho.get(),fill=col,outline=col,tags=col)
 def motion(event):
   x, y = event.x, event.y
-  lienzo.create_rectangle(x-hancho.get(),y+hancho.get(),x+hancho.get(),y-hancho.get(),fill="white",outline="white")
+  lienzo.create_rectangle(x-hancho.get(),y+hancho.get(),x+hancho.get(),y-hancho.get(),fill="white",outline="white",tags=col)
 
 def linea(event):
     x,y=event.x,event.y
     cord.append(x)
     cord.append(y)
     if len(cord)==4 or len(cord)>4:
-        lienzo.create_line(cord[0],cord[1],cord[2],cord[3],fill=col,tags="kk",width=hancho.get()*2,)
+        lienzo.create_line(cord[0],cord[1],cord[2],cord[3],fill=col,tags=col,width=hancho.get()*2,)
         cord.clear()
 def recta(event):
     x,y=event.x,event.y
     cord.append(x)
     cord.append(y)
     if len(cord)==4 or len(cord)>4:
-        lienzo.create_rectangle(cord[0],cord[1],cord[2],cord[3],outline=col,width=hancho.get()*2,tags="kk")
+        lienzo.create_rectangle(cord[0],cord[1],cord[2],cord[3],outline=col,width=hancho.get()*2,tags=col)
         cord.clear()
+def getcolor(event):
+    for item_id in lienzo.find_all():
+      tag = lienzo.gettags(item_id)[0]
+      lienzo.tag_bind(tag, '<Button-2>', lambda _, ta=tag: set_color(ta))
+     
+lienzo.bind('<Button-2>',getcolor)
 root.mainloop()
