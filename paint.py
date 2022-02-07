@@ -1,4 +1,3 @@
-
 from tkinter import *
 from tkinter import colorchooser
 
@@ -7,13 +6,13 @@ from tkinter import colorchooser
 root = Tk()
 
 
-
 material="lapis"
 col="black"
 
-rec=PhotoImage(file="_rectangulo.png")
 hancho=Scale(root,from_=0,to=100,orient=HORIZONTAL)
-hancho.grid(row=2,column=10,columnspan=8) 
+hancho.grid(row=2,column=10,columnspan=8)
+dis_linias=Scale(root,from_=1,to=30,orient=HORIZONTAL)
+dis_linias.grid(row=6,column=10,columnspan=8)
 lienzo=Canvas(root,width=600,height=400,bg="white")
 lienzo.grid(padx=20,pady=20,row=1,columnspan=10,column=0,rowspan=10)
 bor=Button(root,text="borrador",command=lambda:set_material("goma"))
@@ -28,7 +27,6 @@ bor2=Button(root,text="bora todo",command=lambda:des()).grid(row=1,column=22,col
 nar=Button(root,bg="#FF6A00",command=lambda:set_color("#FF6A00"),height=1,width=1).grid(row=3,column=10)
 nar=Button(root,bg="black",command=lambda:set_color("black"),height=1,width=1).grid(row=3,column=11)
 nar=Button(root,bg="#F0F0F0",command=lambda:set_color("#F0F0F0"),height=1,width=1).grid(row=3,column=12)
-
 nar2=Button(root,bg="#F0F0F0",command=lambda:asck_color(),height=1,width=1)
 nar2.grid(row=4,column=12)
 def asck_color():
@@ -72,6 +70,7 @@ def set_material(m):
     las.config(bg="#F0F0F0")
     lin.config(bg="#F0F0F0")
     rect.config(bg="red")
+
 def motion2(event):
   x, y = event.x, event.y
   lienzo.create_rectangle(x-hancho.get(),y+hancho.get(),x+hancho.get(),y-hancho.get(),fill=col,outline=col,tags=col)
@@ -93,10 +92,17 @@ def recta(event):
     if len(cord)==4 or len(cord)>4:
         lienzo.create_rectangle(cord[0],cord[1],cord[2],cord[3],outline=col,width=hancho.get()*2,tags=col)
         cord.clear()
+def spray (event):
+    x,y=event.x,event.y
+    dis=(hancho.get()*2)+dis_linias.get()
+    lienzo.create_rectangle(x-hancho.get(),y+hancho.get(),x+hancho.get(),y-hancho.get(),fill=col,outline=col,tags=col)
+    lienzo.create_rectangle(x-hancho.get()+dis,y+hancho.get()-dis,x+hancho.get()+dis,y-hancho.get()-dis,fill=col,outline=col,tags=col)
 def getcolor(event):
     for item_id in lienzo.find_all():
       tag = lienzo.gettags(item_id)[0]
       lienzo.tag_bind(tag, '<Button-2>', lambda _, ta=tag: set_color(ta))
      
 lienzo.bind('<Button-2>',getcolor)
+lienzo.bind("<B3-Motion>",spray)
 root.mainloop()
+
